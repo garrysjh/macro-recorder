@@ -18,8 +18,15 @@ func NewSession() *Session {
 	}
 }
 
+func init() {
+	ebiten.SetRunnableOnUnfocused(true)
+	ebiten.SetWindowTitle("Input Test")
+	ebiten.SetWindowSize(NewSession().Layout(1, 1))
+}
+
 func (s *Session) Update() error {
 	keyLog(s)
+	mouseLog(s)
 	// fmt.Println(ebiten.CursorPosition())
 	return nil
 }
@@ -33,23 +40,39 @@ func (s *Session) Layout(w, h int) (int, int) {
 
 func main() {
 	s := NewSession()
-	if err := ebiten.RunGame(s); err != nil {
+	if err := ebiten.RunGameWithOptions(s, &ebiten.RunGameOptions{ScreenTransparent: true}); err != nil {
 		fmt.Println("err")
 	}
 }
 
 func keyLog(s *Session) {
 	currTime := time.Since(s.start)
-	if inpututil.IsKeyJustPressed(ebiten.KeyW) {
-		fmt.Printf("W pressed at %v\n", currTime)
+	keys := inpututil.AppendJustPressedKeys(nil)
+	for _, key := range keys {
+		fmt.Printf("%s pressed at %v\n", key, currTime)
 	}
-	if inpututil.IsKeyJustPressed(ebiten.KeyA) {
-		fmt.Printf("A pressed at %v\n", currTime)
+}
+
+func mouseLog(s *Session) {
+	currTime := time.Since(s.start)
+	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButton0) {
+		x, y := ebiten.CursorPosition()
+		fmt.Printf("Left Mouse pressed at %v, %v at %v\n", x, y, currTime)
 	}
-	if inpututil.IsKeyJustPressed(ebiten.KeyS) {
-		fmt.Printf("S pressed at %v\n", currTime)
+	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButton1) {
+		x, y := ebiten.CursorPosition()
+		fmt.Printf("Mouse3 pressed at %v, %v at %v\n", x, y, currTime)
 	}
-	if inpututil.IsKeyJustPressed(ebiten.KeyD) {
-		fmt.Printf("D pressed at %v\n", currTime)
+	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButton2) {
+		x, y := ebiten.CursorPosition()
+		fmt.Printf("Right Mouse pressed at %v, %v at %v\n", x, y, currTime)
+	}
+	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButton3) {
+		x, y := ebiten.CursorPosition()
+		fmt.Printf("Mouse4 pressed at %v, %v at %v\n", x, y, currTime)
+	}
+	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButton4) {
+		x, y := ebiten.CursorPosition()
+		fmt.Printf("Mouse5 pressed at %v, %v at %v\n", x, y, currTime)
 	}
 }
