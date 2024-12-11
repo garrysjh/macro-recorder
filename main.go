@@ -2,15 +2,20 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
 
-type Session struct{}
+type Session struct {
+	start time.Time
+}
 
 func NewSession() *Session {
-	return &Session{}
+	return &Session{
+		start: time.Now(),
+	}
 }
 
 func (s *Session) Update() error {
@@ -34,16 +39,17 @@ func main() {
 }
 
 func keyLog(s *Session) {
+	currTime := time.Since(s.start)
 	if inpututil.IsKeyJustPressed(ebiten.KeyW) {
-		fmt.Println("W")
+		fmt.Printf("W pressed at %v\n", currTime)
 	}
 	if inpututil.IsKeyJustPressed(ebiten.KeyA) {
-		fmt.Println("A")
+		fmt.Printf("A pressed at %v\n", currTime)
 	}
 	if inpututil.IsKeyJustPressed(ebiten.KeyS) {
-		fmt.Println("S")
+		fmt.Printf("S pressed at %v\n", currTime)
 	}
 	if inpututil.IsKeyJustPressed(ebiten.KeyD) {
-		fmt.Println("D")
+		fmt.Printf("D pressed at %v\n", currTime)
 	}
 }
