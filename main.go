@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
 
 type Session struct{}
@@ -14,6 +15,7 @@ func NewSession() *Session {
 
 func (s *Session) Update() error {
 	keyLog(s)
+	// fmt.Println(ebiten.CursorPosition())
 	return nil
 }
 
@@ -32,16 +34,16 @@ func main() {
 }
 
 func keyLog(s *Session) {
-	if ebiten.IsKeyPressed(ebiten.KeyW) {
+	if inpututil.IsKeyJustPressed(ebiten.KeyW) {
 		fmt.Println("W")
 	}
-	if ebiten.IsKeyPressed(ebiten.KeyA) {
+	if inpututil.IsKeyJustPressed(ebiten.KeyA) {
 		fmt.Println("A")
 	}
-	if ebiten.IsKeyPressed(ebiten.KeyS) {
+	if inpututil.IsKeyJustPressed(ebiten.KeyS) {
 		fmt.Println("S")
 	}
-	if ebiten.IsKeyPressed(ebiten.KeyD) {
+	if inpututil.IsKeyJustPressed(ebiten.KeyD) {
 		fmt.Println("D")
 	}
 }
